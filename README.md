@@ -5,13 +5,18 @@
 Example
 ------
 
-    CvGenerator::Client.new(consumer_key: "85shb322w12345",
+    generator = CvGenerator::Client.new(consumer_key: "85shb322w12345",
                          consumer_secret: "psoyiAmz58123456",
                          atoken: "12345aab-db47-48a2-9e3b-12345678999",
                          asecret: "9874561-38e3-4801-b61f-88912342142")
 
- LinkedIn Application Info :: consumer_key, consumer_secret # Create your own at https://www.linkedin.com/secure/developer
- User Info :: atoken, asecret
+    pdf = generator.generate_pdf # Get a CV in PDF
+
+    File.write('/path/to/save/name.pdf', pdf)
+
+* LinkedIn Application Info :: consumer_key, consumer_secret
+    # Create your own at https://www.linkedin.com/secure/developer
+* User Info :: atoken, asecret
 
  #### More Info
 

@@ -3,12 +3,13 @@
 
     class CvLinkedIn < Prawn::Document
 
-      def initialize(options = {})
+      def initialize(client)
         super()
-        @basic_profile = options[:basic_profile]
-        @full_profile = options[:full_profile]
-        @positions = options[:positions]
-        @educations = options[:educations]
+        @basic_profile = client.get_basic_profile
+        @full_profile = client.get_full_profile
+        @positions = client.get_positions
+        @educations = client.get_educations
+
         header
         basic_profile
         experience

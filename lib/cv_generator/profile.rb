@@ -7,8 +7,7 @@ module CvGenerator
 
       # Basic Profile
       def get_basic_profile
-        client = linkedin_client
-        profile = client.profile(:fields => ['first-name', 'last-name', 'maiden-name', 'formatted-name' ,:headline, :location, :industry, :summary, :specialties, 'picture-url', 'public-profile-url'])
+        profile = linkedin_client.profile(:fields => ['first-name', 'last-name', 'maiden-name', 'formatted-name' ,:headline, :location, :industry, :summary, :specialties, 'picture-url', 'public-profile-url'])
         basic_profile = profile.to_hash
         basic_profile[:location] = basic_profile['location']['name']
         basic_profile.to_hash
@@ -16,15 +15,13 @@ module CvGenerator
 
       #Full profile
       def get_full_profile
-        client = linkedin_client
-        full_profile = client.profile(:fields => [:associations, :honors, :interests, :languages])
+        full_profile = linkedin_client.profile(:fields => [:associations, :honors, :interests, :languages])
         full_profile.to_hash
       end
 
       #Positions
       def get_positions
-        client = linkedin_client
-        positions = client.profile(:fields => [:positions]).positions['values']
+        positions = linkedin_client.profile(:fields => [:positions]).positions['values']
 
         positions_list = []
         positions.each do |p|
@@ -53,8 +50,7 @@ module CvGenerator
 
       # Educations
       def get_educations
-        client = linkedin_client
-        educations = client.profile(:fields => [:educations]).educations['values']
+        educations = linkedin_client.profile(:fields => [:educations]).educations['values']
         educations_list = []
         educations.each do |e|
           educations_list << {
@@ -68,6 +64,11 @@ module CvGenerator
         end
         educations_list
       end
+
+     def get_recomendations
+       #TODO: Include recommendations
+       #linkedin_client.profile.(:fields => [:recommendations])
+     end
 
   end
 end

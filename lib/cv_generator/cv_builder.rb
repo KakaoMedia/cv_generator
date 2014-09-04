@@ -19,6 +19,7 @@
 
       def header
         image open(@basic_profile['pictureUrl']), width: 75, height: 75
+        move_down 10
         text @basic_profile['formattedName'], :align => :left, :size => 18
         text @basic_profile['headline'], :align => :left, :size => 14
         move_down 20
@@ -30,6 +31,7 @@
         text 'Summary', size: 18
         move_down 10
         text @basic_profile['summary']
+        move_down 10
         stroke_horizontal_rule
         move_down 20
       end
@@ -39,7 +41,7 @@
         move_down 10
         @positions.each do |position|
           text "#{position[:title]} at #{position[:company]}", :style => :bold
-          text position[:start_date].to_s, :style => :italic
+          text "From #{position[:start_date].to_s} to #{position[:end_date]}"  , :style => :italic
           text position[:summary]
         end
         move_down 10

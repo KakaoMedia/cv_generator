@@ -19,10 +19,10 @@
       end
 
       def header
-        image open(@basic_profile['pictureUrl']), width: 75, height: 75
+        image open(@basic_profile['pictureUrl'].to_s), width: 75, height: 75
         move_down 10
-        text @basic_profile['formattedName'], :align => :left, :size => 18
-        text @basic_profile['headline'], :align => :left, :size => 14
+        text @basic_profile['formattedName'].to_s, :align => :left, :size => 18
+        text @basic_profile['headline'].to_s, :align => :left, :size => 14
         move_down 20
         stroke_horizontal_rule
         move_down 10
@@ -31,7 +31,7 @@
       def basic_profile
         text 'Summary', size: 18
         move_down 10
-        text @basic_profile['summary']
+        text @basic_profile['summary'].to_s
         move_down 10
         stroke_horizontal_rule
         move_down 20
@@ -41,9 +41,9 @@
         text 'Experience', size: 18
         move_down 10
         @positions.each do |position|
-          text "#{position[:title]} at #{position[:company]}", :style => :bold
-          text "From #{position[:start_date].to_s} to #{position[:end_date]}"  , :style => :italic
-          text position[:summary]
+          text "#{position[:title].to_s} at #{position[:company].to_s}", :style => :bold
+          text "From #{position[:start_date].to_s} to #{position[:end_date].to_s}"  , :style => :italic
+          text position[:summary].to_s
         end
         move_down 10
         stroke_horizontal_rule
@@ -54,7 +54,7 @@
         text 'Languages', size: 18
         move_down 10
         @full_profile['languages']['values'].each do |element|
-          text element['language']['name'], style: :italic
+          text element['language']['name'].to_s, style: :italic
         end
         move_down 10
         stroke_horizontal_rule
@@ -65,10 +65,10 @@
         text 'Education', size: 18
         move_down 10
         @educations.each do |education|
-          text education[:school_name], style: :bold
-          text education[:degree], style: :italic
-          text education[:field_of_study]
-          text "From #{education[:start_date].to_s} to #{education[:end_date]}"
+          text education[:school_name].to_s, style: :bold
+          text education[:degree].to_s, style: :italic
+          text education[:field_of_study].to_s
+          text "From #{education[:start_date].to_s} to #{education[:end_date].to_s}"
         end
         move_down 10
         stroke_horizontal_rule
@@ -78,7 +78,7 @@
       def skills_and_expertise
         text 'Skills and Expetise', size: 18
         move_down 10
-        text @full_profile['interests']
+        text @full_profile['interests'].to_s
       end
 
     end

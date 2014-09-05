@@ -53,7 +53,7 @@
       def languages
         text 'Languages', size: 18
         move_down 10
-        @full_profile['languages']['values'].each do |element|
+        @full_profile['languages']['all'].each do |element|
           text element['language']['name'], style: :italic
         end
         move_down 10

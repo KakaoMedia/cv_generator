@@ -8,15 +8,19 @@ module CvGenerator
       # Basic Profile
       def get_basic_profile
         profile = linkedin_client.profile(:fields => ['first-name', 'last-name', 'maiden-name', 'formatted-name' ,:headline, :location, :industry, :summary, :specialties, 'picture-url', 'public-profile-url', 'email-address'])
-        basic_profile = profile.to_hash
-        basic_profile[:location] = basic_profile['location']['name']
-        basic_profile.to_hash
+        BasicProfile.new( profile['first_name'], profile['last_name'],
+                          profile['maiden_name'], profile['formatted_name'],
+                          profile['headline'], profile['location']['name'],
+                          profile['industry'], profile['summary'],
+                          profile['specialties'], profile['picture_url'],
+                          profile['public_profile_url'])
       end
 
       #Full profile
-      def get_full_profile
-        full_profile = linkedin_client.profile(:fields => [:associations, :honors, :interests, :languages])
-        full_profile.to_hash
+      def get_extended_profile
+        profile = linkedin_client.profile(:fields => [:associations, :honors, :interests, :languages])
+        ExtendedProfile.new(  profile['associations'], profile['honors'],
+                              profile['interests'], get_languages(profile['languages']) )
       end
 
       #Positions
@@ -25,25 +29,11 @@ module CvGenerator
 
         positions_list = []
         positions.each do |p|
-
-          if p['isCurrent'] == 'true'
-            positions_list << {
-                title: p['title'],
-                summary: p['summary'],
-                start_date: Date.parse("1/#{p['startDate']['month'] ? p['startDate']['month'] : 1}/#{p['startDate']['year']}"),
-                end_date: Date.parse("1/#{p['endDate']['month'] ? p['endDate']['month'] : 1}/#{p['endDate']['year']}"),
-                is_current: p['isCurrent'],
-                company: p['company']['name']
-                }
-          else
-            positions_list << {
-                title: p['title'],
-                summary: p['summary'],
-                start_date: Date.parse("1/#{p['startDate']['month'] ? p['startDate']['month'] : 1}/#{p['startDate']['year']}"),
-                is_current: p['isCurrent'],
-                company: p['company']['name']
-                }
-          end
+            positions_list << Position.new(p['title'],  p['summary'],
+                                           get_date(p['start_date']),
+                                           get_date(p['end_date']),
+                                           p['is_current'],
+                                           p['company']['name'] )
         end
         positions_list
       end
@@ -53,22 +43,33 @@ module CvGenerator
         educations = linkedin_client.profile(:fields => [:educations]).educations['values']
         educations_list = []
         educations.each do |e|
-          educations_list << {
-              school_name: e['schoolName'],
-              field_of_study: e['fieldOfStudy'],
-              start_date: Date.parse("1/#{e['startDate']['month'] ? e['startDate']['month'] : 1}/#{e['startDate']['year']}"),
-              end_date: Date.parse("1/#{e['endDate']['month'] ? e['endDate']['month'] : 1}/#{e['endDate']['year']}"),
-              degree: e['degree'],
-              activities: e['activities'],
-              notes: e['notes'] }
+          educations_list << Education.new(e['school_name'], e['field_of_study'],
+                                           get_date(e['start_date']),
+                                           get_date(e['end_date']),
+                                           e['degree'], e['activities'],
+                                           e['notes'])
         end
         educations_list
       end
 
-     def get_recomendations
-       #TODO: Include recommendations
-       #linkedin_client.profile.(:fields => [:recommendations])
-     end
+
+    protected
+
+    def get_languages(languages_api_data)
+      languages = []
+      languages_api_data['all'].each do |element|
+        languages << element['language']['name']
+      end
+      languages
+    end
+
+    def get_date(date_info)
+      if date_info.nil?
+        nil
+      else
+         Date.parse("1/#{date_info['month'] ? date_info['month'] : 1}/#{date_info['year']}")
+      end
+    end
 
   end
 end

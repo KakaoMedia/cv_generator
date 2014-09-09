@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cv_generator (0.0.1)
+    cv_generator (0.0.2)
       linkedin (~> 1.0.0)
       prawn (~> 1.2.1)
 

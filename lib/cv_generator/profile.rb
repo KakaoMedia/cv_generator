@@ -8,7 +8,7 @@ module CvGenerator
       # Basic Profile
       def get_basic_profile
         profile = linkedin_client.profile(:fields => ['first-name', 'last-name', 'maiden-name', 'formatted-name' ,:headline, :location, :industry, :summary, :specialties, 'picture-url', 'public-profile-url', 'email-address'])
-        BasicProfile.new( profile['first_name'], profile['last_name'],
+        BasicProfile.new( profile['first_name'], profile['last_name'], profile['email_address'],
                           profile['maiden_name'], profile['formatted_name'],
                           profile['headline'], profile['location']['name'],
                           profile['industry'], profile['summary'],

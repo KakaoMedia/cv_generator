@@ -5,7 +5,7 @@ require 'open-uri'
 
 module CvGenerator
 
-  BasicProfile = Struct.new(:first_name, :last_name, :maiden_name, :formatted_name, :headline, :location,  :industry, :summary, :specialties, :picture_url, :public_profile_url)
+  BasicProfile = Struct.new(:first_name, :last_name, :email, :maiden_name, :formatted_name, :headline, :location,  :industry, :summary, :specialties, :picture_url, :public_profile_url)
 
   ExtendedProfile = Struct.new(:associations, :honors, :interests, :languages)
 

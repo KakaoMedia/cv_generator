@@ -1,5 +1,6 @@
 module CvGenerator
   module Profile
+    include CvGenerator::ProfileFactory
 
       def linkedin_client
         client ||= get_client
@@ -7,20 +8,19 @@ module CvGenerator
 
       # Basic Profile
       def get_basic_profile
-        profile = linkedin_client.profile(:fields => ['first-name', 'last-name', 'maiden-name', 'formatted-name' ,:headline, :location, :industry, :summary, :specialties, 'picture-url', 'public-profile-url', 'email-address'])
-        BasicProfile.new( profile['first_name'], profile['last_name'], profile['email_address'],
-                          profile['maiden_name'], profile['formatted_name'],
-                          profile['headline'], profile['location']['name'],
-                          profile['industry'], profile['summary'],
-                          profile['specialties'], profile['picture_url'],
-                          profile['public_profile_url'])
+        basic_profile = linkedin_client.profile(:fields => ['first-name', 'last-name', 'maiden-name', 'formatted-name' ,:headline, :location, :industry, :summary, :specialties, 'picture-url', 'public-profile-url', 'email-address'])
+        ProfileFactory.basic_profile(first_name: basic_profile['first_name'], last_name: basic_profile['last_name'],
+                                     email: basic_profile['email_address'], formatted_name: basic_profile['formatted_name'],
+                                     headline: basic_profile['headline'], location: basic_profile['location']['name'],
+                                     industry: basic_profile['industry'], summary: basic_profile['summary'], specialties: basic_profile['specialties'],
+                                     picture_url: basic_profile['picture_url'], public_profile_url: basic_profile['public_profile_url'] )
       end
 
       #Full profile
-      def get_extended_profile
-        profile = linkedin_client.profile(:fields => [:associations, :honors, :interests, :languages])
-        ExtendedProfile.new(  profile['associations'], profile['honors'],
-                              profile['interests'], get_languages(profile['languages']) )
+      def get_full_profile
+        full_profile = linkedin_client.profile(:fields => [:associations, :honors, :interests, :languages])
+        ProfileFactory.full_profile(associations: full_profile[:associations], honors: full_profile[:honors],
+                                    interests: full_profile[:interests], languages: get_languages(full_profile['languages']))
       end
 
       #Positions
@@ -29,11 +29,9 @@ module CvGenerator
 
         positions_list = []
         positions.each do |p|
-            positions_list << Position.new(p['title'],  p['summary'],
-                                           get_date(p['start_date']),
-                                           get_date(p['end_date']),
-                                           p['is_current'],
-                                           p['company']['name'] )
+            positions_list << ProfileFactory.position(title: p['title'], summary: p['summary'],
+                                                       start_date: get_date(p['start_date']), end_date: get_date(p['end_date']),
+                                                       is_current: p['is_current'], company: p['company']['name'] )
         end
         positions_list
       end
@@ -43,11 +41,9 @@ module CvGenerator
         educations = linkedin_client.profile(:fields => [:educations]).educations['values']
         educations_list = []
         educations.each do |e|
-          educations_list << Education.new(e['school_name'], e['field_of_study'],
-                                           get_date(e['start_date']),
-                                           get_date(e['end_date']),
-                                           e['degree'], e['activities'],
-                                           e['notes'])
+          educations_list << ProfileFactory.education(school_name: e['school_name'], field_of_study: e['field_of_study'],
+                                                      start_date: get_date(e['start_date']), end_date: get_date(e['end_date']),
+                                                      degree: e['degree'], activities: e['activities'], notes: e['notes'] )
         end
         educations_list
       end

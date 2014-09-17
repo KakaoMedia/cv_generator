@@ -26,7 +26,11 @@ module CvGenerator
      end
 
     def generate_pdf
-      CvLinkedIn.new(self).render
+      pdf_document.render
+    end
+
+    def pdf_document
+      CvLinkedIn.new(self)
     end
 
     private

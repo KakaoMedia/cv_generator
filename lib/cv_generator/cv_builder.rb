@@ -6,7 +6,7 @@
       def initialize(client)
         super()
         @basic_profile = client.get_basic_profile
-        @extended_profile = client.get_extended_profile
+        @extended_profile = client.get_full_profile
         @positions = client.get_positions
         @educations = client.get_educations
 
@@ -29,12 +29,14 @@
       end
 
       def summary
-        text 'Summary', size: 18
-        move_down 10
-        text @basic_profile.summary
-        move_down 10
-        stroke_horizontal_rule
-        move_down 20
+        if @basic_profile.summary
+          text 'Summary', size: 18
+          move_down 10
+          text @basic_profile.summary
+          move_down 10
+          stroke_horizontal_rule
+          move_down 20
+        end
       end
 
       def experience

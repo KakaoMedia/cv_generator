@@ -24,7 +24,9 @@
       end
 
       def header
-        image open(@basic_profile.picture_url), width: 70, height: 70, :position => :right, :at => [475, cursor]
+        if @basic_profile.picture_url
+          image open(@basic_profile.picture_url), width: 70, height: 70, :position => :right, :at => [475, cursor]
+        end
         text @basic_profile.formatted_name, :size => 18, style: :bold, :valign => :top
         text @basic_profile.headline, :size => 13, :valign => :top
         text "<link href='mailto:#{@basic_profile.email.downcase}'>#{@basic_profile.email.downcase}</link>", :size => 11, :valign => :top, :style => :italic, :color => "6B8FB2", :inline_format => true
@@ -38,7 +40,7 @@
         if @basic_profile.summary
           text 'Summary', size: 18, color: '585859'
           move_down 10
-          text @basic_profile.summary
+          text @basic_profile.summary, :inline_format => true
           move_down 10
           stroke_horizontal_rule
           move_down 20

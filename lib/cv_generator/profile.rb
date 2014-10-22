@@ -40,10 +40,12 @@ module CvGenerator
       def get_educations
         educations = linkedin_client.profile(:fields => [:educations]).educations['values']
         educations_list = []
-        educations.each do |e|
-          educations_list << ProfileFactory.education(school_name: e['school_name'], field_of_study: e['field_of_study'],
-                                                      start_date: get_date(e['start_date']), end_date: get_date(e['end_date']),
-                                                      degree: e['degree'], activities: e['activities'], notes: e['notes'] )
+        unless educations.nil?
+          educations.each do |e|
+            educations_list << ProfileFactory.education(school_name: e['school_name'], field_of_study: e['field_of_study'],
+                                                        start_date: get_date(e['start_date']), end_date: get_date(e['end_date']),
+                                                        degree: e['degree'], activities: e['activities'], notes: e['notes'] )
+          end
         end
         educations_list
       end

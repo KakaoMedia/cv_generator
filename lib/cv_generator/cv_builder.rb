@@ -77,20 +77,22 @@
       end
 
       def educations
-        text 'Education', size: 18, color: '585859'
-        move_down 10
-        @educations.each do |education|
-          text education.school_name, style: :bold
-          text education.degree, style: :italic
-          text education.field_of_study
-          if education.start_date and education.end_date
-            text "From #{education[:start_date].to_s} to #{education[:end_date].to_s}", :style => :italic, size: 11, color: 'A5A5A5'
+        if @educations.count > 0
+          text 'Education', size: 18, color: '585859'
+          move_down 10
+          @educations.each do |education|
+            text education.school_name, style: :bold
+            text education.degree, style: :italic
+            text education.field_of_study
+            if education.start_date and education.end_date
+              text "From #{education[:start_date].to_s} to #{education[:end_date].to_s}", :style => :italic, size: 11, color: 'A5A5A5'
+            end
+            move_down 15
           end
+          move_down 10
+          stroke_horizontal_rule
           move_down 15
         end
-        move_down 10
-        stroke_horizontal_rule
-        move_down 15
       end
 
       def skills_and_expertise

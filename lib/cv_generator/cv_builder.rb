@@ -64,14 +64,16 @@
       end
 
       def languages
-        text 'Languages', size: 18, color: '585859'
-        move_down 10
-        @full_profile.languages.each do |element|
-          text element, style: :italic
+        if @full_profile.languages.count > 0
+          text 'Languages', size: 18, color: '585859'
+          move_down 10
+          @full_profile.languages.each do |element|
+            text element, style: :italic
+          end
+          move_down 10
+          stroke_horizontal_rule
+          move_down 15
         end
-        move_down 10
-        stroke_horizontal_rule
-        move_down 15
       end
 
       def educations

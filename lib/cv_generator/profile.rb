@@ -53,8 +53,10 @@ module CvGenerator
 
     def get_languages(languages_api_data)
       languages = []
-      languages_api_data['all'].each do |element|
-        languages << element['language']['name']
+      unless languages_api_data.nil?
+        languages_api_data['all'].each do |element|
+            languages << element['language']['name']
+        end
       end
       languages
     end

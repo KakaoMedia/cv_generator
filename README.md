@@ -3,7 +3,7 @@
 ### Use
 
 Example
-------
+``` ruby
 
     generator = CvGenerator::Client.new(consumer_key: "85shb322w12345",
                          consumer_secret: "psoyiAmz58123456",
@@ -13,6 +13,7 @@ Example
     pdf = generator.generate_pdf # Get a CV in PDF
 
     File.write('/path/to/save/name.pdf', pdf)
+```
 
 * LinkedIn Application Info :: consumer_key, consumer_secret
     # Create your own at https://www.linkedin.com/secure/developer
@@ -23,7 +24,7 @@ Example
  Coming Soon!
 
 
-= CvGenerator
+# CvGenerator
 
 This project rocks and uses MIT-LICENSE.
 
